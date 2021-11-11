@@ -59,7 +59,17 @@
 </template>
 
 <script>
+import Produto from './services/produtos';
 
+export default {
+
+  mounted() {
+    Produto.listar().then(response => {
+      console.log(response);
+    })
+  }
+
+}
 </script>
 
 <style>
