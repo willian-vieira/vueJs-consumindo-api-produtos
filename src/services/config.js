@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from 'axios';
 
 //Cria uma conexão http com Client axios
 export const http = axios.create ({
