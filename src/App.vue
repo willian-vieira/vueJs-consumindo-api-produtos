@@ -43,7 +43,7 @@
             <td>{{ produto.quantidade }}</td>
             <td>{{ produto.valor }}</td>
             <td>
-              <button class="waves-effect btn-small blue darken-1"><i class="material-icons">create</i></button>
+              <button @click="editar(produto)" class="waves-effect btn-small blue darken-1"><i class="material-icons">create</i></button>
               <button class="waves-effect btn-small red darken-1"><i class="material-icons">delete_sweep</i></button>
             </td>
 
@@ -65,13 +65,13 @@ export default {
 
   data() {
     return {
-      
+      //Objeto produto com atributos definidos
       produto: {
         nome: '',
         quantidade: '',
         valor: ''
       },
-
+      //Objeto produtos do tipo lista
       produtos: []
     }
   },
@@ -83,20 +83,37 @@ export default {
   methods: {
 
     listar() {
-        Produto.listar().then(response => {
-        this.produtos = response.data
-      })
+        Produto.listar().then(resposta => {
+        this.produtos = resposta.data
+      });
     },
 
     salvar() {
-      Produto.salvar(this.produto).then( () => {
-        this.produto = {}
-        alert('Salvo com sucesso!');
-        this.listar();
-      }).catch(e => {
-        console.log(e.response)
-      })
-    }
+
+      if (!this.produto.id) {
+          Produto.salvar(this.produto).then( () => {
+          this.produto = {}
+          alert('Salvo com sucesso!');
+          this.listar();
+        }).catch(e => {
+          console.log(e.resposta)
+        });
+
+      } else {
+        Produto.atualizar(this.produto).then( () => {
+          this.produto = {}
+          alert('Atualizado com sucesso!');
+          this.listar();
+        }).catch(e => {
+          console.log(e.resposta)
+        });
+
+      }
+    },
+    editar(produto) {
+      this.produto = produto
+    },
+    
 
   }
 
